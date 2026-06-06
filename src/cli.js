@@ -159,7 +159,12 @@ async function resolveAndExport(query, options = {}) {
     }
 
     if (asJson) {
-      console.log(JSON.stringify(formatJsonExport(result), null, 2));
+      const json = JSON.stringify(formatJsonExport(result), null, 2);
+      if (useStdout) {
+        console.error(json);
+      } else {
+        console.log(json);
+      }
     } else if (!useStdout) {
       showSuccess(result);
     }
@@ -328,13 +333,13 @@ function cmdOpts(command) {
 }
 
 function exportOptionsFromOpts(opts) {
-  return {
+  const mapped = {
     colour: opts.color ?? null,
     outputName: opts.output ?? null,
     yes: opts.yes,
-    clean: !opts.noClean,
-    noOverwrite: opts.noOverwrite,
-    noLegacy: opts.noLegacy,
+    clean: opts.clean !== false,
+    noOverwrite: opts.overwrite === false,
+    noLegacy: opts.legacy === false,
     dryRun: opts.dryRun,
     stdout: opts.stdout,
     open: opts.open,
@@ -345,6 +350,10 @@ function exportOptionsFromOpts(opts) {
     asJson: opts.json,
     quiet: opts.quiet,
   };
+  // #region agent log
+  fetch('http://127.0.0.1:7421/ingest/6ce5449b-ab97-4ed8-9bc3-95d5b305406c',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'c31548'},body:JSON.stringify({sessionId:'c31548',location:'cli.js:exportOptionsFromOpts',message:'commander opts mapped',data:{raw:{clean:opts.clean,overwrite:opts.overwrite,legacy:opts.legacy,noClean:opts.noClean,noOverwrite:opts.noOverwrite,noLegacy:opts.noLegacy},mapped:{clean:mapped.clean,noOverwrite:mapped.noOverwrite,noLegacy:mapped.noLegacy}},timestamp:Date.now(),hypothesisId:'A'})}).catch(()=>{});
+  // #endregion
+  return mapped;
 }
 
 export function run(argv) {
@@ -398,7 +407,11 @@ export function run(argv) {
         process.exit(EXIT_INVALID);
       }
 
-      const results = searchIcons(query, limit, { noLegacy: opts.noLegacy });
+      const noLegacy = opts.legacy === false;
+      // #region agent log
+      fetch('http://127.0.0.1:7421/ingest/6ce5449b-ab97-4ed8-9bc3-95d5b305406c',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'c31548'},body:JSON.stringify({sessionId:'c31548',location:'cli.js:search',message:'search no-legacy flag',data:{legacy:opts.legacy,noLegacy,noLegacyProp:opts.noLegacy},timestamp:Date.now(),hypothesisId:'A'})}).catch(()=>{});
+      // #endregion
+      const results = searchIcons(query, limit, { noLegacy });
       if (!results.length) {
         if (opts.json) {
           console.log(JSON.stringify({ query, count: 0, results: [] }));
@@ -420,11 +433,13 @@ export function run(argv) {
     .description('Browse available icons')
     .argument('[filter...]', 'Optional filter substring')
     .option('-n, --limit <n>', 'Max icons to show', '50')
+    .option('--no-legacy', 'Exclude legacy (-alt) icons')
     .option('--json', 'Output as JSON')
     .option('-q, --quiet', 'Suppress banner')
     .action(function (filterParts) {
       const opts = cmdOpts(this);
       const filterText = (filterParts ?? []).join(' ').trim() || null;
+      const noLegacy = opts.legacy === false;
       ensureCatalogue({ quiet: opts.quiet || opts.json });
       if (!opts.quiet && !opts.json) showBanner();
 
@@ -435,6 +450,7 @@ export function run(argv) {
       }
 
       let icons = getCatalogue();
+      if (noLegacy) icons = icons.filter((i) => !i.isLegacy);
       if (filterText) {
         const needle = filterText.toLowerCase().replace(/ /g, '-');
         icons = icons.filter((i) => i.slug.includes(needle));
@@ -446,7 +462,7 @@ export function run(argv) {
       if (opts.json) {
         console.log(JSON.stringify(formatJsonIconList(filterText, display, total), null, 2));
       } else {
-        showIconList(filterText, limit);
+        showIconList(filterText, limit, { noLegacy });
       }
     });
 
@@ -571,7 +587,7 @@ export function run(argv) {
 
       for (const query of icons) {
         try {
-          const { best } = pickBestMatch(query, { noLegacy: opts.noLegacy });
+          const { best } = pickBestMatch(query, { noLegacy: opts.legacy === false });
           if (!best) {
             batchResults.push({ query, ok: false, error: 'no match' });
             continue;

@@ -137,8 +137,10 @@ export function showError(message) {
   console.log(boxen(theme.bright(message), { borderColor: theme.border, borderStyle: 'round' }));
 }
 
-export function showIconList(filterText = null, limit = 50) {
+export function showIconList(filterText = null, limit = 50, { noLegacy = false } = {}) {
   let icons = getCatalogue();
+
+  if (noLegacy) icons = icons.filter((i) => !i.isLegacy);
 
   if (filterText) {
     const needle = filterText.toLowerCase().replace(/ /g, '-');
