@@ -1,0 +1,28 @@
+Third-party notices
+=====================
+
+Font Awesome icons
+--------------------
+
+The SVG files in the `icons/` directory are from Font Awesome Free 7.2.0.
+
+  Copyright (c) Fonticons, Inc.
+  https://fontawesome.com
+  License: https://fontawesome.com/license/free
+
+Icon SVG files are licensed under the Creative Commons Attribution 4.0
+International (CC BY 4.0) licence:
+https://creativecommons.org/licenses/by/4.0/
+
+Each icon file includes an embedded attribution comment. When redistributing
+exported SVGs, keep that comment (use `zsm --no-clean`) or provide equivalent
+attribution elsewhere.
+
+Brand icons (if present) are trademarks of their respective owners. Use brand
+logos only to represent the company, product, or service they refer to.
+
+Other dependencies
+------------------
+
+Runtime npm dependencies are listed in `package.json`. See each package's
+licence in `node_modules/` after running `npm install`.

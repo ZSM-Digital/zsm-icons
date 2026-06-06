@@ -1,0 +1,11 @@
+node_modules/
+output/
+
+# Maintainer-only synonym source (see scripts/gen-synonyms.mjs)
+src-synonyms-temp.json
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log
+.env

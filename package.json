@@ -1,0 +1,40 @@
+{
+  "name": "zsm-icons",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CLI to fuzzy-search Font Awesome icons, recolour, and export SVGs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ZSMDigital/zsm-icons.git"
+  },
+  "homepage": "https://github.com/ZSMDigital/zsm-icons#readme",
+  "bugs": "https://github.com/ZSMDigital/zsm-icons/issues",
+  "type": "module",
+  "bin": {
+    "zsm": "bin/zsm.js"
+  },
+  "scripts": {
+    "start": "node bin/zsm.js",
+    "gen-synonyms": "node scripts/gen-synonyms.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@inquirer/prompts": "^7.3.2",
+    "boxen": "^8.0.1",
+    "chalk": "^5.4.1",
+    "commander": "^13.1.0",
+    "fuzzball": "^2.1.2",
+    "ora": "^8.2.0"
+  },
+  "keywords": [
+    "icons",
+    "svg",
+    "cli",
+    "fontawesome",
+    "font-awesome",
+    "fuzzy-search"
+  ],
+  "license": "MIT"
+}
