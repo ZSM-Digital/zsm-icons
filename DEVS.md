@@ -5,7 +5,7 @@ Notes for people working on or contributing to ZSM Icons.
 ## Setup from source
 
 ```bash
-git clone https://github.com/ZSMDigital/zsm-icons.git
+git clone https://github.com/ZSM-Digital/zsm-icons.git
 cd zsm-icons
 npm install
 npm link

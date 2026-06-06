@@ -5,10 +5,10 @@
   "description": "CLI to fuzzy-search Font Awesome icons, recolour, and export SVGs",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ZSMDigital/zsm-icons.git"
+    "url": "https://github.com/ZSM-Digital/zsm-icons.git"
   },
-  "homepage": "https://github.com/ZSMDigital/zsm-icons#readme",
-  "bugs": "https://github.com/ZSMDigital/zsm-icons/issues",
+  "homepage": "https://github.com/ZSM-Digital/zsm-icons#readme",
+  "bugs": "https://github.com/ZSM-Digital/zsm-icons/issues",
   "type": "module",
   "bin": {
     "zsm": "bin/zsm.js"

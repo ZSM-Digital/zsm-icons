@@ -11,7 +11,7 @@ A command-line tool to **fuzzy-search** [Font Awesome Free](https://fontawesome.
 Clone the repo, install dependencies, and register the `zsm` command:
 
 ```bash
-git clone https://github.com/ZSMDigital/zsm-icons.git
+git clone https://github.com/ZSM-Digital/zsm-icons.git
 cd zsm-icons
 npm install
 npm link
