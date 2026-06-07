@@ -15,7 +15,8 @@
   },
   "scripts": {
     "start": "node bin/zsm.js",
-    "gen-synonyms": "node scripts/gen-synonyms.mjs"
+    "gen-synonyms": "node scripts/gen-synonyms.mjs",
+    "test": "node --test tests/"
   },
   "engines": {
     "node": ">=18"
